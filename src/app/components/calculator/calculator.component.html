@@ -71,10 +71,10 @@
                             <input matInput [disabled]="pWTSelected || pITSelected" formControlName="valueAddedTax"
                                 placeholder="Price without Tax">
                             <mat-error
-                                *ngIf="(calculatorForm.get('valueAddedTax')?.hasError('required')) && !calculatorForm.get('valueAddedTax')?.hasError('pattern')">This
+                                *ngIf="vATSelected && (calculatorForm.get('valueAddedTax')?.hasError('required')) && !calculatorForm.get('valueAddedTax')?.hasError('pattern')">This
                                 is a required field</mat-error>
                             <mat-error
-                                *ngIf="!(calculatorForm.get('valueAddedTax')?.hasError('required')) && calculatorForm.get('valueAddedTax')?.hasError('pattern')">Enter
+                                *ngIf="vATSelected && !(calculatorForm.get('valueAddedTax')?.hasError('required')) && calculatorForm.get('valueAddedTax')?.hasError('pattern')">Enter
                                 value greate than 0</mat-error>
                         </mat-form-field>
                     </div>
@@ -85,10 +85,10 @@
                             <input matInput [disabled]="pWTSelected || vATSelected" formControlName="priceIncludedVAT"
                                 placeholder="Price without Tax">
                             <mat-error
-                                *ngIf="(calculatorForm.get('priceIncludedVAT')?.hasError('required')) && !calculatorForm.get('priceIncludedVAT')?.hasError('pattern')">This
+                                *ngIf="pITSelected && (calculatorForm.get('priceIncludedVAT')?.hasError('required')) && !calculatorForm.get('priceIncludedVAT')?.hasError('pattern')">This
                                 is a required field</mat-error>
                             <mat-error
-                                *ngIf="!(calculatorForm.get('priceIncludedVAT')?.hasError('required')) && calculatorForm.get('priceIncludedVAT')?.hasError('pattern')">Enter
+                                *ngIf="pITSelected && !(calculatorForm.get('priceIncludedVAT')?.hasError('required')) && calculatorForm.get('priceIncludedVAT')?.hasError('pattern')">Enter
                                 value greate than 0</mat-error>
                         </mat-form-field>
                     </div>
