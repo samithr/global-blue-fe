@@ -100,7 +100,7 @@ export class CalculatorComponent implements OnInit {
       let vatValue: number;
       vatValue = this.nett * this.selectedVATRate / 100;
       this.vat = vatValue
-      this.gross = this.nett + vatValue;
+      this.gross = (+this.nett + this.vat);
     }
   }
 
@@ -112,11 +112,8 @@ export class CalculatorComponent implements OnInit {
       this.gross = (nettValue * this.selectedVATRate) / 100;
     }
   }
-
   updateGross() {
     if (this.gross && this.selectedVATRate) {
-      console.log(this.gross)
-      console.log("rate", this.selectedVATRate)
       let nettValue: number;
       nettValue = 100 * this.gross / (100 + this.selectedVATRate)
       this.nett = nettValue;
@@ -124,3 +121,7 @@ export class CalculatorComponent implements OnInit {
     }
   }
 }
+function isNumeric(arg0: number) {
+  throw new Error('Function not implemented.');
+}
+

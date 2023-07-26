@@ -14,15 +14,13 @@
                                 {{country}}
                             </mat-option>
                         </mat-select>
-                        <mat-error
-                            *ngIf="selectedCountry && (calculatorForm.get('country')?.hasError('required')) && !calculatorForm.get('country')?.hasError('pattern')">This
-                            is a required field</mat-error>
+                        <mat-error>This is a required field</mat-error>
                     </mat-form-field>
                 </div>
                 <div *ngIf="selectedCountry !== undefined" fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
                     <mat-label>VAT Rates</mat-label>
-                    <mat-radio-group formControlName="vatRates">
-                        <mat-radio-button *ngFor="let vat of vatData" [value]="selectedVATRate">
+                    <mat-radio-group formControlName="vatRates" [(ngModel)]="selectedVATRate">
+                        <mat-radio-button *ngFor="let vat of vatData" [value]="vat">
                             {{vat}}
                         </mat-radio-button>
                     </mat-radio-group>
