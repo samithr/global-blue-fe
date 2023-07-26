@@ -12,7 +12,7 @@ export class CalculatorComponent implements OnInit {
 
   public calculatorForm: FormGroup;
   public countryVatData: any;
-  public countryArray: any;
+  public countryArray: string[];
 
   constructor(private countryService: CountryService,
               private formBuilder: FormBuilder) {    }
@@ -32,8 +32,16 @@ export class CalculatorComponent implements OnInit {
         this.countryService.getVatRates()
         .subscribe(data => {
           if(data !== null)
-          this.countryVatData = data.result;
-          this.countryArray = data.result.find(o=> o.country);
+          this.countryVatData = data.result.find(o=> o.country);
+          this.countryArray = data.result.map(o=> o.country);
         })
+      }
+
+      // getCountryVatData(country:string){
+      //   return countryVatData.map(o=> o.country === country)
+      // }
+
+      updateAllComplete(){
+        
       }
 }
