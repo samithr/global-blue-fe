@@ -25,6 +25,10 @@ export class CalculatorComponent implements OnInit {
   public valuePIT: number;
   public valueVAT: number;
 
+  public nett:number;
+  public vat:number;
+  public gross:number;
+
   constructor(private countryService: CountryService,
     private formBuilder: FormBuilder) { }
 
@@ -94,7 +98,9 @@ export class CalculatorComponent implements OnInit {
     this.calculatorForm.controls['valueAddedTax'].disable();
     console.log("pITSelected",this.pITSelected);
   }
-  processPriceIncludeVAT() {
-    console.log(this.valuePIT)
+
+  changeGross() {
+    console.log(this.gross)
+    console.log("rate",this.selectedVATRate)
   }
 }
