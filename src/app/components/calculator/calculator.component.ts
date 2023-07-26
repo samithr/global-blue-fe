@@ -18,7 +18,7 @@ export class CalculatorComponent implements OnInit {
   public selectedCountry: string;
   public selectedVATRate: number;
 
-  public pWTSelected: boolean;
+  public pWVSelected: boolean;
   public vATSelected: boolean;
   public pITSelected: boolean;
   public valuePWT: number;
@@ -32,8 +32,8 @@ export class CalculatorComponent implements OnInit {
     this.calculatorForm = this.formBuilder.group({
       country: new FormControl('', [Validators.required]),
       vatRates: new FormControl(),
-      priceWithoutVAT: new FormControl('', [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
-      valueAddedTax: new FormControl('', [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
+      priceWithoutVAT: new FormControl({value: '', disabled: this.pWVSelected}, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
+      valueAddedTax: new FormControl({value: '', disabled: this.vATSelected}, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
       priceIncludedVAT: new FormControl(),
     })
     this.getVATRates();
@@ -61,10 +61,13 @@ export class CalculatorComponent implements OnInit {
   }
 
   selectPWT(event: MatCheckboxChange): void {
-    this.pWTSelected = event.checked;
+    this.pWVSelected = event.checked;
     this.vATSelected = false;
     this.pITSelected = false;
-    console.log(this.pITSelected);
+    this.calculatorForm.controls['priceWithoutVAT'].enable();
+    this.calculatorForm.controls['valueAddedTax'].disable();
+    this.calculatorForm.controls['priceIncludedVAT'].disable();
+    console.log("pITSelected",this.pITSelected);
   }
   processPriceWithoutVAT() {
 
@@ -72,8 +75,11 @@ export class CalculatorComponent implements OnInit {
 
   selectVAT(event: MatCheckboxChange): void {
     this.vATSelected = event.checked;
-    this.pWTSelected = false;
+    this.pWVSelected = false;
     this.pITSelected = false;
+    this.calculatorForm.controls['valueAddedTax'].enable();
+    this.calculatorForm.controls['priceWithoutVAT'].disable();
+    this.calculatorForm.controls['priceIncludedVAT'].disable();
   }
   processVAT() {
 
@@ -81,8 +87,12 @@ export class CalculatorComponent implements OnInit {
 
   selectPIT(event: MatCheckboxChange): void {
     this.pITSelected = event.checked;
-    this.pWTSelected = false;
+    this.pWVSelected = false;
     this.vATSelected = false;
+    this.calculatorForm.controls['priceIncludedVAT'].enable();
+    this.calculatorForm.controls['priceWithoutVAT'].disable();
+    this.calculatorForm.controls['valueAddedTax'].disable();
+    console.log("pITSelected",this.pITSelected);
   }
   processPriceIncludeVAT() {
     console.log(this.valuePIT)
