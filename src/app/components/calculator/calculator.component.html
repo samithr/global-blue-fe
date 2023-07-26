@@ -1,0 +1,69 @@
+<form class="center" [formGroup]="calculatorForm"  class="form-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>VAT Calculator</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-label formControlName="countrArray.Country">Country</mat-label>
+          </div>
+  
+          <div fxFlex="calc( 25% - 15px )" *ngFor="let countrArray of countrArray">
+            <div fxLayout="row wrap" fxLayoutAlign="center center">
+                <img [src]="countrArray.country">
+                <span fxFlex="100"  >{{countrArray.country}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-input formControlName="countrArray.VATRates">VAT Rates</mat-input>
+          </div>
+  
+          <div fxFlex="calc( 25% - 15px )" *ngFor="let countrArray of countrArray">
+            <div fxLayout="row wrap" fxLayoutAlign="center center">
+                <img [src]="countrArray.country">
+                <span fxFlex="100"  >{{countrArray.VATRates}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-label formControlName="countrArray.Country">Price without VAT</mat-label>
+          </div>
+  
+          <div fxFlex="calc( 25% - 15px )" *ngFor="let countrArray of countrArray">
+            <div fxLayout="row wrap" fxLayoutAlign="center center">
+                <img [src]="countrArray.country">
+                <span fxFlex="100"  >{{countrArray.country}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-label formControlName="countrArray.Country">Price without Tax</mat-label>
+          </div>
+  
+          <div fxFlex="calc( 25% - 15px )" *ngFor="let countrArray of countrArray">
+            <div fxLayout="row wrap" fxLayoutAlign="center center">
+                <img [src]="countrArray.country">
+                <span fxFlex="100"  >{{countrArray.country}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-label formControlName="countrArray.Country">Price incl. VAT</mat-label>
+          </div>
+  
+          <div fxFlex="calc( 25% - 15px )" *ngFor="let countrArray of countrArray">
+            <div fxLayout="row wrap" fxLayoutAlign="center center">
+                <img [src]="countrArray.country">
+                <span fxFlex="100"  >{{countrArray.country}}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
