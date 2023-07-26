@@ -6,19 +6,19 @@
       <mat-card-content>
         <div class="row">
           <mat-label class="form-inline">Country</mat-label>
-          <select class="form-inline" matNativeControl [(ngModel)]="countryArray.country">
+          <select class="form-inline" matNativeControl [(ngModel)]="countryArray.value">
             <option value="" selected></option>
-            <option *ngFor="let country of countryArray.country" [value]="countryArray.country">
-              {{countryArray.country}}
+            <option *ngFor="let country of countryArray" [value]="countryArray.value">
+              {{country.value}}
             </option>
           </select>
         </div>
         <div class="row">
           <mat-label>VAT Rates</mat-label>
-          <select matNativeControl [(ngModel)]="countryArray.vatRates">
+          <select matNativeControl [(ngModel)]="countryVatData">
             <option value="" selected></option>
-            <option *ngFor="let vatRates of countryArray.vatRates" [value]="countryArray.vatRates.value">
-              {{countryArray.vatRates.value}}
+            <option *ngFor="let vatRate of countryVatData" [value]="vatRate.value">
+              {{vatRate.value}}
             </option>
           </select>
         </div>
