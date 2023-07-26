@@ -13,8 +13,6 @@
             </option>
           </select>
           <mat-label>VAT Rates</mat-label>
-
-
               <ul>
                 <li *ngFor="let vatRate of countryVatData">
                   <mat-checkbox>
@@ -24,21 +22,21 @@
               </ul>
         </div>
         <div class="row">
-          <mat-label>Price without VAT</mat-label>
+          <mat-checkbox [checked]="pWTSelected" (change)="selectPWT($event)">Price without VAT</mat-checkbox>
           <mat-form-field>
-            <textarea matInput></textarea>
+            <textarea matInput [disabled]="vATSelected || pITSelected"></textarea>
           </mat-form-field>
         </div>
         <div class="row">
-          <mat-label>Price without Tax</mat-label>
+          <mat-checkbox [checked]="vATSelected" (change)="selectVAT($event)">Value-Added Tax</mat-checkbox>
           <mat-form-field>
-            <textarea matInput></textarea>
+            <textarea matInput [disabled]="pWTSelected || pITSelected"></textarea>
           </mat-form-field>
         </div>
         <div class="row">
-          <mat-label>Price incl. VAT</mat-label>
-          <mat-form-field>
-            <textarea matInput></textarea>
+            <mat-checkbox [checked]="pITSelected" (change)="selectPIT($event)">Price incl. VAT</mat-checkbox>
+            <mat-form-field>
+            <textarea matInput [disabled]="pWTSelected || vATSelected"></textarea>
           </mat-form-field>
         </div>
       </mat-card-content>

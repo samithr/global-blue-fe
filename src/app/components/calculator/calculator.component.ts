@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { REGEX } from 'src/shared/assests/REGEX';
 import { CountryService } from 'src/shared/services/country.service';
 
@@ -13,6 +14,9 @@ export class CalculatorComponent implements OnInit {
   public calculatorForm: FormGroup;
   public countryVatData: any;
   public countryArray: string[];
+  public pWTSelected:boolean;
+  public vATSelected:boolean;
+  public pITSelected:boolean;
 
   constructor(private countryService: CountryService,
               private formBuilder: FormBuilder) {    }
@@ -42,6 +46,30 @@ export class CalculatorComponent implements OnInit {
       // }
 
       updateAllComplete(){
-        
+
       }
+
+      selectPWT(event:MatCheckboxChange): void {
+        this.pWTSelected = event.checked;
+        
+        this.vATSelected = false;
+        this.pITSelected = false;
+        console.log(this.pWTSelected);
+    }
+
+      selectVAT(event:MatCheckboxChange): void {
+        this.vATSelected = event.checked;
+
+        this.pWTSelected = false;
+        this.pITSelected = false;
+        console.log(this.vATSelected);
+    }
+
+      selectPIT(event:MatCheckboxChange): void {
+        this.pITSelected = event.checked;
+        
+        this.pWTSelected = false;
+        this.vATSelected = false;
+        console.log(this.pITSelected);
+    }
 }
