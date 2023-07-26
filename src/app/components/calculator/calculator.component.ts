@@ -34,7 +34,7 @@ export class CalculatorComponent implements OnInit {
       vatRates: new FormControl(),
       priceWithoutVAT: new FormControl({value: '', disabled: this.pWVSelected}, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
       valueAddedTax: new FormControl({value: '', disabled: this.vATSelected}, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
-      priceIncludedVAT: new FormControl(),
+      priceIncludedVAT: new FormControl({value: '', disabled: this.pITSelected}, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
     })
     this.getVATRates();
   }
