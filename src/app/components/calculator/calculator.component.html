@@ -20,50 +20,51 @@
                 <div *ngIf="selectedCountry !== undefined" fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
                     <mat-label>VAT Rates</mat-label>
                     <mat-radio-group formControlName="vatRates" [(ngModel)]="selectedVATRate">
-                        <mat-radio-button *ngFor="let vat of vatData" [value]="vat">
+                        <mat-radio-button *ngFor="let vat of vatData" [value]="vat"
+                            (change)="radioButtonChange($event)">
                             {{vat}}
                         </mat-radio-button>
                     </mat-radio-group>
                 </div>
                 <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
-                    <mat-checkbox [checked]="pWVSelected" (change)="selectPWT($event)">Price without
+                    <mat-checkbox class="checkbox" [checked]="checkBoxModel.pWVSelected" (change)="selectPWT($event)">Price without
                         VAT</mat-checkbox>
                     <mat-form-field>
-                        <input matInput [(ngModel)]="nett" (change)="updateNett()" formControlName="priceWithoutVAT"
-                            placeholder="Price without VAT">
+                        <input matInput [(ngModel)]="calculationModel.nett" (change)="updateNett()"
+                            formControlName="priceWithoutVAT" placeholder="Price without VAT">
                         <mat-error
-                            *ngIf="pWVSelected && (calculatorForm.get('priceWithoutVAT')?.hasError('required')) && !calculatorForm.get('priceWithoutVAT')?.hasError('pattern')">This
+                            *ngIf="checkBoxModel.pWVSelected && (calculatorForm.get('priceWithoutVAT')?.hasError('required')) && !calculatorForm.get('priceWithoutVAT')?.hasError('pattern')">This
                             is a required field</mat-error>
                         <mat-error
-                            *ngIf="pWVSelected && !(calculatorForm.get('priceWithoutVAT')?.hasError('required')) && calculatorForm.get('priceWithoutVAT')?.hasError('pattern')">Enter
+                            *ngIf="checkBoxModel.pWVSelected && !(calculatorForm.get('priceWithoutVAT')?.hasError('required')) && calculatorForm.get('priceWithoutVAT')?.hasError('pattern')">Enter
                             value greate than 0</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
-                    <mat-checkbox [checked]="vATSelected" (change)="selectVAT($event)">Value-Added
+                    <mat-checkbox class="checkbox" [checked]="checkBoxModel.vATSelected" (change)="selectVAT($event)">Value-Added
                         Tax</mat-checkbox>
                     <mat-form-field>
-                        <input matInput [(ngModel)]="vat" (change)="updateVat()" formControlName="valueAddedTax"
-                            placeholder="Value added tax">
+                        <input matInput [(ngModel)]="calculationModel.vat" (change)="updateVat()"
+                            formControlName="valueAddedTax" placeholder="Value added tax">
                         <mat-error
-                            *ngIf="vATSelected && (calculatorForm.get('valueAddedTax')?.hasError('required')) && !calculatorForm.get('valueAddedTax')?.hasError('pattern')">This
+                            *ngIf="checkBoxModel.vATSelected && (calculatorForm.get('valueAddedTax')?.hasError('required')) && !calculatorForm.get('valueAddedTax')?.hasError('pattern')">This
                             is a required field</mat-error>
                         <mat-error
-                            *ngIf="vATSelected && !(calculatorForm.get('valueAddedTax')?.hasError('required')) && calculatorForm.get('valueAddedTax')?.hasError('pattern')">Enter
+                            *ngIf="checkBoxModel.vATSelected && !(calculatorForm.get('valueAddedTax')?.hasError('required')) && calculatorForm.get('valueAddedTax')?.hasError('pattern')">Enter
                             value greate than 0</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
-                    <mat-checkbox [checked]="pITSelected" (change)="selectPIT($event)">Price incl.
+                    <mat-checkbox class="checkbox" [checked]="checkBoxModel.pITSelected" (change)="selectPIT($event)">Price incl.
                         VAT</mat-checkbox>
                     <mat-form-field>
-                        <input matInput [(ngModel)]="gross" (change)="updateGross()" formControlName="priceIncludedVAT"
-                            placeholder="Price incl. VAT">
+                        <input matInput [(ngModel)]="calculationModel.gross" (change)="updateGross()"
+                            formControlName="priceIncludedVAT" placeholder="Price incl. VAT">
                         <mat-error
-                            *ngIf="pITSelected && (calculatorForm.get('priceIncludedVAT')?.hasError('required')) && !calculatorForm.get('priceIncludedVAT')?.hasError('pattern')">This
+                            *ngIf="checkBoxModel.pITSelected && (calculatorForm.get('priceIncludedVAT')?.hasError('required')) && !calculatorForm.get('priceIncludedVAT')?.hasError('pattern')">This
                             is a required field</mat-error>
                         <mat-error
-                            *ngIf="pITSelected && !(calculatorForm.get('priceIncludedVAT')?.hasError('required')) && calculatorForm.get('priceIncludedVAT')?.hasError('pattern')">Enter
+                            *ngIf="checkBoxModel.pITSelected && !(calculatorForm.get('priceIncludedVAT')?.hasError('required')) && calculatorForm.get('priceIncludedVAT')?.hasError('pattern')">Enter
                             value greate than 0</mat-error>
                     </mat-form-field>
                 </div>
