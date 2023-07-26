@@ -14,62 +14,77 @@ export class CalculatorComponent implements OnInit {
   public calculatorForm: FormGroup;
   public countryVatData: any;
   public countryArray: string[];
-  public pWTSelected:boolean;
-  public vATSelected:boolean;
-  public pITSelected:boolean;
+  public vatData: number[];
+  public selectedCountry: string;
+  public selectedVATRate: number;
+
+  public pWTSelected: boolean;
+  public vATSelected: boolean;
+  public pITSelected: boolean;
+  public valuePWT: number;
+  public valuePIT: number;
+  public valueVAT: number;
 
   constructor(private countryService: CountryService,
-              private formBuilder: FormBuilder) {    }
+    private formBuilder: FormBuilder) { }
 
-    ngOnInit(): void {
-      this.calculatorForm = this.formBuilder.group({
-          country: new FormControl('', [Validators.required]),
-          vatRates:new FormControl(),
-          priceWithoutVAT: new FormControl('', [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
-          valueAddedTax:new FormControl('', [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
-          priceIncludedVAT:new FormControl(),
-        })
-        this.getVATRates();
-      }
+  ngOnInit(): void {
+    this.calculatorForm = this.formBuilder.group({
+      country: new FormControl('', [Validators.required]),
+      vatRates: new FormControl(),
+      priceWithoutVAT: new FormControl('', [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
+      valueAddedTax: new FormControl('', [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
+      priceIncludedVAT: new FormControl(),
+    })
+    this.getVATRates();
+  }
 
-      getVATRates(){
-        this.countryService.getVatRates()
-        .subscribe(data => {
-          if(data !== null)
-          this.countryVatData = data.result.find(o=> o.country);
-          this.countryArray = data.result.map(o=> o.country);
-        })
-      }
+  getVATRates() {
+    this.countryService.getVatRates()
+      .subscribe(data => {
+        if (data !== null)
+        this.countryVatData = data.result;
+        this.countryArray = data.result.map(o => o.country);
+      })
+  }
 
-      // getCountryVatData(country:string){
-      //   return countryVatData.map(o=> o.country === country)
-      // }
-
-      updateAllComplete(){
-
-      }
-
-      selectPWT(event:MatCheckboxChange): void {
-        this.pWTSelected = event.checked;
-        
-        this.vATSelected = false;
-        this.pITSelected = false;
-        console.log(this.pWTSelected);
+  onCountrySelect() {
+    if (this.selectedCountry != undefined) {
+      this.vatData = this.getCountryVatData(this.selectedCountry);
+      console.log("vatData", this.vatData);
     }
+  }
 
-      selectVAT(event:MatCheckboxChange): void {
-        this.vATSelected = event.checked;
+  getCountryVatData(country: string) {
+    console.log("Country", country);
+    return this.countryVatData.find((o: { country: string; }) => o.country === country).vatRates;
+  }
 
-        this.pWTSelected = false;
-        this.pITSelected = false;
-        console.log(this.vATSelected);
-    }
+  selectPWT(event: MatCheckboxChange): void {
+    this.pWTSelected = event.checked;
+    this.vATSelected = false;
+    this.pITSelected = false;
+    console.log(this.pITSelected);
+  }
+  processPriceWithoutVAT() {
 
-      selectPIT(event:MatCheckboxChange): void {
-        this.pITSelected = event.checked;
-        
-        this.pWTSelected = false;
-        this.vATSelected = false;
-        console.log(this.pITSelected);
-    }
+  }
+
+  selectVAT(event: MatCheckboxChange): void {
+    this.vATSelected = event.checked;
+    this.pWTSelected = false;
+    this.pITSelected = false;
+  }
+  processVAT() {
+
+  }
+
+  selectPIT(event: MatCheckboxChange): void {
+    this.pITSelected = event.checked;
+    this.pWTSelected = false;
+    this.vATSelected = false;
+  }
+  processPriceIncludeVAT() {
+    console.log(this.valuePIT)
+  }
 }

@@ -1,44 +1,99 @@
-<form class="center" [formGroup]="calculatorForm"  class="form-container">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>VAT Calculator</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="row">
-          <mat-label class="form-inline">Country</mat-label>
-          <select class="form-inline" matNativeControl [(ngModel)]="countryArray">
-            <option value="" selected></option>
-            <option *ngFor="let country of countryArray" [value]="countryArray">
-              {{country}}
-            </option>
-          </select>
-          <mat-label>VAT Rates</mat-label>
-              <ul>
-                <li *ngFor="let vatRate of countryVatData">
-                  <mat-checkbox>
-                   
-                  </mat-checkbox>
-                </li>
-              </ul>
-        </div>
-        <div class="row">
-          <mat-checkbox [checked]="pWTSelected" (change)="selectPWT($event)">Price without VAT</mat-checkbox>
-          <mat-form-field>
-            <textarea matInput [disabled]="vATSelected || pITSelected"></textarea>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-checkbox [checked]="vATSelected" (change)="selectVAT($event)">Value-Added Tax</mat-checkbox>
-          <mat-form-field>
-            <textarea matInput [disabled]="pWTSelected || pITSelected"></textarea>
-          </mat-form-field>
-        </div>
-        <div class="row">
-            <mat-checkbox [checked]="pITSelected" (change)="selectPIT($event)">Price incl. VAT</mat-checkbox>
-            <mat-form-field>
-            <textarea matInput [disabled]="pWTSelected || vATSelected"></textarea>
-          </mat-form-field>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </form>
+<div fxLayout="row wrap" [formGroup]="calculatorForm">
+    <div fxFlex.xs="100" fxLayoutAlign="start start">
+        <form class="center" [formGroup]="calculatorForm" class="form-container">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>VAT Calculator</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
+                        <mat-form-field>
+                            <mat-label>Country</mat-label>
+                            <mat-select formControlName="country" (ngModelChange)="onCountrySelect()"
+                                [(value)]="selectedCountry">
+                                <mat-option *ngFor="let country of countryArray" [value]="country">
+                                    {{country}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>This is a required field</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
+                        <mat-label>VAT Rates</mat-label>
+                        <mat-radio-group formControlName="vatRates">
+                            <mat-radio-button *ngFor="let vat of vatData" [value]="vat">
+                                {{vat}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
+                        <mat-checkbox [checked]="pWTSelected" (change)="selectPWT($event)">Price without
+                            VAT</mat-checkbox>
+                        <mat-form-field>
+                            <input matInput type="textbox" [disabled]="vATSelected || pITSelected" step=".01">
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
+                        <mat-checkbox [checked]="vATSelected" (change)="selectVAT($event)">Value-Added
+                            Tax</mat-checkbox>
+                        <mat-form-field>
+                            <input matInput type="textbox" [disabled]="pWTSelected || pITSelected">
+                        </mat-form-field>
+                    </div>
+
+                    <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
+                        <mat-checkbox [checked]="pITSelected" (change)="selectPIT($event)">Price incl.
+                            VAT</mat-checkbox>
+                        <mat-form-field>
+                            <input matInput type="textbox" [disabled]="pWTSelected || vATSelected">
+                        </mat-form-field>
+                    </div>
+
+
+                    <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
+                        <mat-checkbox [checked]="pWTSelected" (change)="selectPWT($event)">Price without
+                            VAT</mat-checkbox>
+                        <mat-form-field>
+                            <input matInput [disabled]="vATSelected || pITSelected" formControlName="priceWithoutVAT"
+                                placeholder="Price without VAT">
+                            <mat-error
+                                *ngIf="pWTSelected && (calculatorForm.get('priceWithoutVAT')?.hasError('required')) && !calculatorForm.get('priceWithoutVAT')?.hasError('pattern')">This
+                                is a required field</mat-error>
+                            <mat-error
+                                *ngIf="pWTSelected && !(calculatorForm.get('priceWithoutVAT')?.hasError('required')) && calculatorForm.get('priceWithoutVAT')?.hasError('pattern')">Enter
+                                value greate than 0</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
+                        <mat-checkbox [checked]="vATSelected" (change)="selectVAT($event)">Value-Added
+                            Tax</mat-checkbox>
+                        <mat-form-field>
+                            <input matInput [disabled]="pWTSelected || pITSelected" formControlName="valueAddedTax"
+                                placeholder="Price without Tax">
+                            <mat-error
+                                *ngIf="(calculatorForm.get('valueAddedTax')?.hasError('required')) && !calculatorForm.get('valueAddedTax')?.hasError('pattern')">This
+                                is a required field</mat-error>
+                            <mat-error
+                                *ngIf="!(calculatorForm.get('valueAddedTax')?.hasError('required')) && calculatorForm.get('valueAddedTax')?.hasError('pattern')">Enter
+                                value greate than 0</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex.lt-md="100" fxFlex="50" fxFlex.gt-md="33.33">
+                        <mat-checkbox [checked]="pITSelected" (change)="selectPIT($event)">Price incl.
+                            VAT</mat-checkbox>
+                        <mat-form-field>
+                            <input matInput [disabled]="pWTSelected || vATSelected" formControlName="priceIncludedVAT"
+                                placeholder="Price without Tax">
+                            <mat-error
+                                *ngIf="(calculatorForm.get('priceIncludedVAT')?.hasError('required')) && !calculatorForm.get('priceIncludedVAT')?.hasError('pattern')">This
+                                is a required field</mat-error>
+                            <mat-error
+                                *ngIf="!(calculatorForm.get('priceIncludedVAT')?.hasError('required')) && calculatorForm.get('priceIncludedVAT')?.hasError('pattern')">Enter
+                                value greate than 0</mat-error>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </form>
+    </div>
+</div>
