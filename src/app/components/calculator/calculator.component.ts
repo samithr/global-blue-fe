@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, isFormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { REGEX } from 'src/shared/assests/REGEX';
 import { CountryService } from 'src/shared/services/country.service';
@@ -25,9 +25,9 @@ export class CalculatorComponent implements OnInit {
   public valuePIT: number;
   public valueVAT: number;
 
-  public nett:number;
-  public vat:number;
-  public gross:number;
+  public nett: number;
+  public vat: number;
+  public gross: number;
 
   constructor(private countryService: CountryService,
     private formBuilder: FormBuilder) { }
@@ -36,9 +36,9 @@ export class CalculatorComponent implements OnInit {
     this.calculatorForm = this.formBuilder.group({
       country: new FormControl('', [Validators.required]),
       vatRates: new FormControl(),
-      priceWithoutVAT: new FormControl({value: '', disabled: this.pWVSelected}, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
-      valueAddedTax: new FormControl({value: '', disabled: this.vATSelected}, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
-      priceIncludedVAT: new FormControl({value: '', disabled: this.pITSelected}, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
+      priceWithoutVAT: new FormControl({ value: '', disabled: this.pWVSelected }, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
+      valueAddedTax: new FormControl({ value: '', disabled: this.vATSelected }, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
+      priceIncludedVAT: new FormControl({ value: '', disabled: this.pITSelected }, [Validators.required, Validators.pattern(REGEX.NUMERIC_NUMBERS)]),
     })
     this.getVATRates();
   }
@@ -47,7 +47,7 @@ export class CalculatorComponent implements OnInit {
     this.countryService.getVatRates()
       .subscribe(data => {
         if (data !== null)
-        this.countryVatData = data.result;
+          this.countryVatData = data.result;
         this.countryArray = data.result.map(o => o.country);
       })
   }
@@ -55,12 +55,10 @@ export class CalculatorComponent implements OnInit {
   onCountrySelect() {
     if (this.selectedCountry != undefined) {
       this.vatData = this.getCountryVatData(this.selectedCountry);
-      console.log("vatData", this.vatData);
     }
   }
 
   getCountryVatData(country: string) {
-    console.log("Country", country);
     return this.countryVatData.find((o: { country: string; }) => o.country === country).vatRates;
   }
 
@@ -71,7 +69,6 @@ export class CalculatorComponent implements OnInit {
     this.calculatorForm.controls['priceWithoutVAT'].enable();
     this.calculatorForm.controls['valueAddedTax'].disable();
     this.calculatorForm.controls['priceIncludedVAT'].disable();
-    console.log("pITSelected",this.pITSelected);
   }
   processPriceWithoutVAT() {
 
@@ -96,11 +93,34 @@ export class CalculatorComponent implements OnInit {
     this.calculatorForm.controls['priceIncludedVAT'].enable();
     this.calculatorForm.controls['priceWithoutVAT'].disable();
     this.calculatorForm.controls['valueAddedTax'].disable();
-    console.log("pITSelected",this.pITSelected);
   }
 
-  changeGross() {
-    console.log(this.gross)
-    console.log("rate",this.selectedVATRate)
+  updateNett() {
+    if (this.nett && this.selectedVATRate) {
+      let vatValue: number;
+      vatValue = this.nett * this.selectedVATRate / 100;
+      this.vat = vatValue
+      this.gross = this.nett + vatValue;
+    }
+  }
+
+  updateVat() {
+    if (this.vat && this.selectedVATRate) {
+      let nettValue: number;
+      nettValue = 100 * this.vat / this.selectedVATRate
+      this.nett = nettValue;
+      this.gross = (nettValue * this.selectedVATRate) / 100;
+    }
+  }
+
+  updateGross() {
+    if (this.gross && this.selectedVATRate) {
+      console.log(this.gross)
+      console.log("rate", this.selectedVATRate)
+      let nettValue: number;
+      nettValue = 100 * this.gross / (100 + this.selectedVATRate)
+      this.nett = nettValue;
+      this.vat = (nettValue * this.selectedVATRate) / 100;
+    }
   }
 }
