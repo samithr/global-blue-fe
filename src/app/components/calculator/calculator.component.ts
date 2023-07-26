@@ -11,7 +11,7 @@ import { CountryService } from 'src/shared/services/country.service';
 export class CalculatorComponent implements OnInit {
 
   public calculatorForm: FormGroup;
-  public countrArray: any;
+  public countryArray: any;
 
   constructor(private countryService: CountryService,
               private formBuilder: FormBuilder) {    }
@@ -31,8 +31,7 @@ export class CalculatorComponent implements OnInit {
         this.countryService.getVatRates()
         .subscribe(data => {
           if(data !== null)
-          this.countrArray = data.result;
+          this.countryArray = data.result;
         })
       }
-
 }
